@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel>
+            <Label x:Name="SpeedLabel">Speed: 0</Label>
+            <Label x:Name="RPMLabel">RPM: 0</Label>
+            <Label x:Name="GearLabel">Gear: 0</Label>
+        </StackPanel>
     </Grid>
 </Window>
