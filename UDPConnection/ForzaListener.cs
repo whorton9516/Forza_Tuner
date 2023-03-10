@@ -2,7 +2,8 @@
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
-
+using System.Collections.Concurrent;
+using System.Linq;
 
 namespace Forza_Tuner.UDPConnection
 {
@@ -11,12 +12,16 @@ namespace Forza_Tuner.UDPConnection
         private Socket? listener;
         private TelemetryData data = new TelemetryData();
         private readonly object dataLock = new object();
+        private readonly ConcurrentQueue<byte[]> telemetryPackets = new ConcurrentQueue<byte[]>();
+
 
         public void Listen()
         {
 
             try
             {
+                Thread parseThread = new Thread(ParseTelemetryPackets);
+                parseThread.Start();
                 const int port = 5555;
                 listener = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
@@ -28,17 +33,11 @@ namespace Forza_Tuner.UDPConnection
 
                 while (true)
                 {
-                    // Console.SetCursorPosition(0, 0);
                     EndPoint remote = new IPEndPoint(IPAddress.Any, 0);
                     try
                     {
                         int received = listener.ReceiveFrom(buffer, ref remote);
-                        lock (dataLock)
-                        {
-                            data = ParseData(buffer);
-                        }
-                        Console.WriteLine(BitConverter.ToString(buffer));
-
+                        telemetryPackets.Enqueue(buffer.Take(received).ToArray()); // Enqueue only the received bytes
                     }
                     catch (SocketException)
                     {
@@ -147,20 +146,21 @@ namespace Forza_Tuner.UDPConnection
             return data;
         }
 
-        static bool AdjustToBufferType(int bufferLength)
+        private void ParseTelemetryPackets()
         {
-            switch (bufferLength)
+            while (true)
             {
-                case 232: // FM7 sled
-                    return false;
-                case 311: // FM7 dash
-                    FMData.BufferOffset = 0;
-                    return true;
-                case 324: // FH4
-                    FMData.BufferOffset = 12;
-                    return true;
-                default:
-                    return false;
+                if (telemetryPackets.TryDequeue(out byte[]? packet))
+                {
+                    lock (dataLock)
+                    {
+                        data = ParseData(packet);
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(5);
+                }
             }
         }
 
