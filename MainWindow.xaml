@@ -3,14 +3,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
         xmlns:local="clr-namespace:Forza_Tuner"
+        xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel>
-            <Label x:Name="SpeedLabel">Speed: 0</Label>
-            <Label x:Name="RPMLabel">RPM: 0</Label>
-            <Label x:Name="GearLabel">Gear: 0</Label>
+        Title="MainWindow" Height="1000" Width="1700" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        >
+    <Grid x:Name="MainPanel" Background="#FF282A2D">
+        <StackPanel x:Name="ContentPanel" Orientation="Vertical" 
+                    Background="#FF323846" Height="900" Width="1450" 
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Label x:Name="SessionTimerLabel"
+                   Content="Session: "
+                   FontSize="42"
+                   />
+            <Label x:Name="SpeedLabel"
+                   Content="Speed: "
+                   FontSize="42"
+                   />
+            <Label x:Name="RPMLabel"
+                   Content="RPM: "
+                   FontSize="42"
+                    />
+            <Label x:Name="GearLabel"
+                   Content="Gear: "
+                   FontSize="42"
+                   />
         </StackPanel>
     </Grid>
 </Window>

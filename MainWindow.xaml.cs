@@ -13,6 +13,8 @@ namespace Forza_Tuner
     {
         ForzaListener Listener = new ForzaListener();
         TelemetryData Data = new TelemetryData();
+        TimeSpan SessionTimer = new TimeSpan();
+        uint SessionStartTime = 0;
 
         DispatcherTimer timer = new DispatcherTimer();
 
@@ -26,17 +28,30 @@ namespace Forza_Tuner
             ListenerThread.Start();
 
             timer.Tick += new EventHandler(Timer_Tick);
-            timer.Interval = new TimeSpan(16000);
+            timer.Interval = new TimeSpan(22000);
             timer.Start();
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
         {
+            // Get Data
             Data = Listener.GetSnapshot();
 
-            SpeedLabel.Content = $"Speed: {Math.Round(Data.Speed * 2.23694f)}";
+            // Update Values
+            UpdateSessionTimer();
+
+            SessionTimerLabel.Content = $"Session: {SessionTimer.ToString(@"hh\:mm\:ss")}";
+            SpeedLabel.Content = $"Speed: {Data.SpeedMPH}";
             RPMLabel.Content = $"RPM: {Math.Round(Data.CurrentEngineRpm)}";
             GearLabel.Content = $"Gear: {Data.Gear}";
+        }
+
+        private void UpdateSessionTimer()
+        {
+            if(SessionStartTime == 0) { SessionStartTime = Data.TimestampMS; }
+            SessionTimer = TimeSpan.FromSeconds(
+                Math.Round((double)Data.TimestampMS - SessionStartTime/100)
+                );
         }
     }
 }

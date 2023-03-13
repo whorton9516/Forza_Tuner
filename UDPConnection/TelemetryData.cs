@@ -89,7 +89,7 @@ namespace Forza_Tuner.UDPConnection
         public uint CarPerformanceIndex { get; set; }  // Between 100 (slowest car) and 999 (fastest car) inclusive
         public uint DrivetrainType { get; set; }       // Corresponds to EDrivetrainType; 0 = FWD, 1 = RWD, 2 = AWD
         public uint NumCylinders { get; set; }         // Number of cylinders in the engine
-        public uint CarType { get; set; }               // Car Classification
+        public uint CarType { get; set; }              // Car Classification
         public uint CarOrdinal { get; set; }           // Unique ID of the car make/model
 
 
@@ -100,6 +100,8 @@ namespace Forza_Tuner.UDPConnection
 
         // Engine Output
         public float Speed { get; set; }
+        public float SpeedMPH { get; set; }
+        public float SpeedKPH { get; set; }
         public float Power { get; set; }
         public float Torque { get; set; }
 

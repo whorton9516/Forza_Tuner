@@ -12,7 +12,6 @@ namespace Forza_Tuner.UDPConnection
         private Socket? listener;
         private TelemetryData data = new TelemetryData();
         private readonly object dataLock = new object();
-        private readonly ConcurrentQueue<byte[]> telemetryPackets = new ConcurrentQueue<byte[]>();
 
 
         public void Listen()
@@ -20,8 +19,6 @@ namespace Forza_Tuner.UDPConnection
 
             try
             {
-                Thread parseThread = new Thread(ParseTelemetryPackets);
-                parseThread.Start();
                 const int port = 5555;
                 listener = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
@@ -37,7 +34,10 @@ namespace Forza_Tuner.UDPConnection
                     try
                     {
                         int received = listener.ReceiveFrom(buffer, ref remote);
-                        telemetryPackets.Enqueue(buffer.Take(received).ToArray()); // Enqueue only the received bytes
+                        lock (dataLock)
+                        {
+                            data = ParseData(buffer);
+                        }
                     }
                     catch (SocketException)
                     {
@@ -143,33 +143,11 @@ namespace Forza_Tuner.UDPConnection
             data.NormalDrivingLine = packet.NormalDrivingLine();
             data.NormalAiBrakeDifference = packet.NormalAiBrakeDifference();
 
+            // QOL
+            data.SpeedMPH = MathF.Round(packet.Speed() * 2.23694f);
+            data.SpeedKPH = MathF.Round(packet.Speed() * 3.6f);
+
             return data;
-        }
-
-        private void ParseTelemetryPackets()
-        {
-            while (true)
-            {
-                if (telemetryPackets.TryDequeue(out byte[]? packet))
-                {
-                    lock (dataLock)
-                    {
-                        data = ParseData(packet);
-                    }
-                }
-                else
-                {
-                    Thread.Sleep(5);
-                }
-            }
-        }
-
-        private static void PrintCurrentTime(UInt32 ms)
-        {
-            long totalMilliseconds = ms;
-            TimeSpan time = TimeSpan.FromMilliseconds(totalMilliseconds);
-            time = time.Add(new TimeSpan(4, 0, 0));
-            Console.WriteLine(time.ToString(@"hh\:mm\:ss\.fff"));
         }
 
         public TelemetryData GetSnapshot()

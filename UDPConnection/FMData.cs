@@ -1,4 +1,5 @@
-﻿using static Forza_Tuner.UDPConnection.PacketParse;
+﻿using System;
+using static Forza_Tuner.UDPConnection.PacketParse;
 
 namespace Forza_Tuner.UDPConnection
 {
@@ -7,8 +8,8 @@ namespace Forza_Tuner.UDPConnection
         public static int BufferOffset = 12;
 
         // Sled
-        public static bool IsRaceOn(this byte[] bytes) { return GetSingle(bytes, 0) > 0; }
-        public static uint TimestampMs(this byte[] bytes) { return GetUInt32(bytes, 4); }
+        public static bool  IsRaceOn(this byte[] bytes) { return GetSingle(bytes, 0) > 0; }
+        public static uint  TimestampMs(this byte[] bytes) { return GetUInt32(bytes, 4); }
         public static float EngineMaxRpm(this byte[] bytes) { return GetSingle(bytes, 8); }
         public static float EngineIdleRpm(this byte[] bytes) { return GetSingle(bytes, 12); }
         public static float CurrentEngineRpm(this byte[] bytes) { return GetSingle(bytes, 16); }
@@ -60,19 +61,19 @@ namespace Forza_Tuner.UDPConnection
         public static float SuspensionTravelMetersFr(this byte[] bytes) { return GetSingle(bytes, 200); }
         public static float SuspensionTravelMetersRl(this byte[] bytes) { return GetSingle(bytes, 204); }
         public static float SuspensionTravelMetersRr(this byte[] bytes) { return GetSingle(bytes, 208); }
-        public static uint CarOrdinal(this byte[] bytes) { return GetUInt8(bytes, 212); }
-        public static uint CarClass(this byte[] bytes) { return GetUInt8(bytes, 216); }
-        public static uint CarPerformanceIndex(this byte[] bytes) { return GetUInt8(bytes, 220); }
-        public static uint DriveTrain(this byte[] bytes) { return GetUInt8(bytes, 224); }
-        public static uint NumCylinders(this byte[] bytes) { return GetUInt8(bytes, 228); }
+        public static uint  CarOrdinal(this byte[] bytes) { return GetUInt8(bytes, 212); }
+        public static uint  CarClass(this byte[] bytes) { return GetUInt8(bytes, 216); }
+        public static uint  CarPerformanceIndex(this byte[] bytes) { return GetUInt8(bytes, 220); }
+        public static uint  DriveTrain(this byte[] bytes) { return GetUInt8(bytes, 224); }
+        public static uint  NumCylinders(this byte[] bytes) { return GetUInt8(bytes, 228); }
 
         // Dash
         public static float PositionX(this byte[] bytes) { return GetSingle(bytes, 232 + BufferOffset); }
         public static float PositionY(this byte[] bytes) { return GetSingle(bytes, 236 + BufferOffset); }
         public static float PositionZ(this byte[] bytes) { return GetSingle(bytes, 240 + BufferOffset); }
         public static float Speed(this byte[] bytes) { return GetSingle(bytes, 244 + BufferOffset); }
-        public static float Power(this byte[] bytes) { return GetSingle(bytes, 248 + BufferOffset); }
-        public static float Torque(this byte[] bytes) { return GetSingle(bytes, 252 + BufferOffset); }
+        public static float Power(this byte[] bytes) { return MathF.Round(GetSingle(bytes, 248 + BufferOffset) * 0.00134102f); }
+        public static float Torque(this byte[] bytes) { return MathF.Round(GetSingle(bytes, 252 + BufferOffset)); }
         public static float TireTempFrontLeft(this byte[] bytes) { return GetSingle(bytes, 256 + BufferOffset); }
         public static float TireTempFrontRight(this byte[] bytes) { return GetSingle(bytes, 260 + BufferOffset); }
         public static float TireTempRearLeft(this byte[] bytes) { return GetSingle(bytes, 264 + BufferOffset); }
@@ -84,15 +85,15 @@ namespace Forza_Tuner.UDPConnection
         public static float LastLapTime(this byte[] bytes) { return GetSingle(bytes, 288 + BufferOffset); }
         public static float CurrentLapTime(this byte[] bytes) { return GetSingle(bytes, 292 + BufferOffset); }
         public static float CurrentRaceTime(this byte[] bytes) { return GetSingle(bytes, 296 + BufferOffset); }
-        public static uint Lap(this byte[] bytes) { return GetUInt16(bytes, 300 + BufferOffset); }
-        public static uint RacePosition(this byte[] bytes) { return GetUInt8(bytes, 302 + BufferOffset); }
-        public static uint Accelerator(this byte[] bytes) { return GetUInt8(bytes, 303 + BufferOffset); }
-        public static uint Brake(this byte[] bytes) { return GetUInt8(bytes, 304 + BufferOffset); }
-        public static uint Clutch(this byte[] bytes) { return GetUInt8(bytes, 305 + BufferOffset); }
-        public static uint Handbrake(this byte[] bytes) { return GetUInt8(bytes, 306 + BufferOffset); }
-        public static uint Gear(this byte[] bytes) { return GetUInt8(bytes, 307 + BufferOffset); }
-        public static int Steer(this byte[] bytes) { return GetInt8(bytes, 308 + BufferOffset); }
-        public static uint NormalDrivingLine(this byte[] bytes) { return GetUInt8(bytes, 309 + BufferOffset); }
-        public static uint NormalAiBrakeDifference(this byte[] bytes) { return GetUInt8(bytes, 310 + BufferOffset); }
+        public static uint  Lap(this byte[] bytes) { return GetUInt16(bytes, 300 + BufferOffset); }
+        public static uint  RacePosition(this byte[] bytes) { return GetUInt8(bytes, 302 + BufferOffset); }
+        public static uint  Accelerator(this byte[] bytes) { return GetUInt8(bytes, 303 + BufferOffset) * 100 / 255; }
+        public static uint  Brake(this byte[] bytes) { return GetUInt8(bytes, 304 + BufferOffset) * 100 / 255; }
+        public static uint  Clutch(this byte[] bytes) { return GetUInt8(bytes, 305 + BufferOffset) * 100 / 255; }
+        public static uint  Handbrake(this byte[] bytes) { return GetUInt8(bytes, 306 + BufferOffset) * 100 / 255; }
+        public static uint  Gear(this byte[] bytes) { return GetUInt8(bytes, 307 + BufferOffset); }
+        public static int   Steer(this byte[] bytes) { return GetInt8(bytes, 308 + BufferOffset) * 100 / 127; }
+        public static uint  NormalDrivingLine(this byte[] bytes) { return GetUInt8(bytes, 309 + BufferOffset); }
+        public static uint  NormalAiBrakeDifference(this byte[] bytes) { return GetUInt8(bytes, 310 + BufferOffset); }
     }
 }
