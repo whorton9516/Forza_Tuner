@@ -9,16 +9,36 @@
 
   <ItemGroup>
     <None Remove="Assets\Fonts\AmsiProCondensed-Bold.ttf" />
+    <None Remove="Assets\Fonts\AmsiProCondensed-BoldItalic.ttf" />
+    <None Remove="Assets\Fonts\AmsiProCondensed-Italic.ttf" />
+    <None Remove="Assets\Fonts\AmsiProCondensed-Light.ttf" />
+    <None Remove="Assets\Fonts\AmsiProCondensed-LightItalic.ttf" />
     <None Remove="Assets\Fonts\AmsiProCondensed-Regular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls" Version="7.1.3" />
+    <Content Include="Assets\Fonts\AmsiProCondensed-Bold.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\AmsiProCondensed-BoldItalic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\AmsiProCondensed-Italic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\AmsiProCondensed-Light.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\AmsiProCondensed-LightItalic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\AmsiProCondensed-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\Fonts\AmsiProCondensed-Bold.ttf" />
-    <Resource Include="Assets\Fonts\AmsiProCondensed-Regular.ttf" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls" Version="7.1.3" />
   </ItemGroup>
 
 </Project>

@@ -58,9 +58,11 @@ namespace Forza_Tuner
             Dispatcher.BeginInvoke(() =>
             {
                 SessionTimerLabel.Content = $"Session: {elapsedTime.ToString(@"hh\:mm\:ss")}";
-                SpeedLabel.Content = $"Speed: {Data.SpeedMPH}";
+                SpeedLabel.Content = $"{Data.SpeedMPH}";
                 RPMLabel.Content = $"RPM: {Math.Round(Data.CurrentEngineRpm)}";
-                GearLabel.Content = $"Gear: {Data.Gear}";
+                if (Data.Gear == 0) GearLabel.Content = "R";
+                else GearLabel.Content = $"{Data.Gear}";
+                
                 Speedometer.UpdateAngle(Data.SpeedMPH);
 
                 if (!OTSIsReady)

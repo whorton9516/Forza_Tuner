@@ -24,40 +24,77 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <StackPanel x:Name="SpeedStack" Background="#FF323846"
-                        Grid.Row="0" Grid.Column="0">
+            <Grid x:Name="SpeedGrid" Background="#FF323846"
+                        Grid.Row="0" Grid.Column="0"
+                        >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
                 <Label x:Name="SpeedLabel"
-                   Content="Speed: "
-                   FontSize="42"
-                   />
-            </StackPanel>
-            <StackPanel x:Name="RPMStack" Background="#FF323846"
-                        Grid.Row="1" Grid.Column="0">
+                       Content="0"
+                       FontSize="200"
+                       FontFamily="/Assets/Fonts/AmsiProCondensed-LightItalic.ttf#Amsi Pro Condensed Light Italic"
+                       Grid.Column="0"
+                       HorizontalContentAlignment="Right"
+                       />
+                <Label x:Name="StaticMPHLabel"
+                       Content="MPH"
+                       FontSize="72"
+                       FontFamily="/Assets/Fonts/AmsiProCondensed-Italic.ttf#Amsi Pro Condensed Italic"
+                       Grid.Column="1"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Bottom"
+                       />
+            </Grid>
+            <Grid x:Name="RPMGrid" Background="#FF323846"
+                        Grid.Row="1" Grid.Column="0"
+                        >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
                 <Label x:Name="RPMLabel"
-                   Content="RPM: "
-                   FontSize="42"
-                    />
-            </StackPanel>
+                       Content="0"
+                       FontSize="200"
+                       FontFamily="/Assets/Fonts/AmsiProCondensed-LightItalic.ttf#Amsi Pro Condensed Light Italic"
+                       Grid.Column="0"
+                       HorizontalContentAlignment="Right"
+                       />
+                <Label x:Name="StaticRPMLabel"
+                       Content="RPM"
+                       FontSize="72"
+                       FontFamily="/Assets/Fonts/AmsiProCondensed-Italic.ttf#Amsi Pro Condensed Italic"
+                       Grid.Column="1"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Bottom"
+                       />
+            </Grid>
             <StackPanel x:Name="GearStack" Background="#FF323846"
-                        Grid.Row="2" Grid.Column="0">
+                        Grid.Row="2" Grid.Column="0" Orientation="Vertical">
                 <Label x:Name="GearLabel"
-                   Content="Gear: "
-                   FontSize="42"
-                    />
+                       Content="1"
+                       FontSize="225"
+                       FontFamily="/Assets/Fonts/AmsiProCondensed-Italic.ttf#Amsi Pro Condensed Italic"
+                       HorizontalContentAlignment="Center"
+                       />
             </StackPanel>
             <StackPanel x:Name="RadialSpeedometerStack" Background="#FF323846"
                         Grid.Row="0" Grid.Column="1">
                 <local:RadialSpeedometerUserControl x:Name="Speedometer"/>
-                <Label x:Name="OTSTimerLabel"
-                   Content=""
-                   FontSize="42"
-                   />
+
             </StackPanel>
             <StackPanel x:Name="SessionTimerStack" Background="#FF323846"
-                        Grid.Row="0" Grid.Column="2">
+                        Grid.Row="0" Grid.Column="2" Orientation="Vertical">
                 <Label x:Name="SessionTimerLabel"
                    Content="Session: "
                    FontSize="42"
+                   FontFamily="/Assets/Fonts/AmsiProCondensed-Bold.ttf#Amsi Pro Condensed Bold"
+                   />
+                <Label x:Name="OTSTimerLabel"
+                   Content=""
+                   FontSize="36"
+                   FontFamily="/Assets/Fonts/AmsiProCondensed-Regular.ttf#Amsi Pro Condensed Regular"
                    />
             </StackPanel>
             <StackPanel x:Name="StackPanel1" Background="#FF323846"

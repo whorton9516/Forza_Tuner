@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:Forza_Tuner"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
+        <Style TargetType="Control">
+            <Setter Property="FontFamily" Value="pack://application:,,,/Assets/Fonts/#AmsiProCondensed-Regular"/>
+        </Style>
     </Application.Resources>
 </Application>
