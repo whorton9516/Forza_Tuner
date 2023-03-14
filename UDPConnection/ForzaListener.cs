@@ -144,8 +144,8 @@ namespace Forza_Tuner.UDPConnection
             data.NormalAiBrakeDifference = packet.NormalAiBrakeDifference();
 
             // QOL
-            data.SpeedMPH = MathF.Round(packet.Speed() * 2.23694f);
-            data.SpeedKPH = MathF.Round(packet.Speed() * 3.6f);
+            data.SpeedMPH = MathF.Floor(packet.Speed() * 2.23694f);
+            data.SpeedKPH = MathF.Floor(packet.Speed() * 3.6f);
 
             return data;
         }

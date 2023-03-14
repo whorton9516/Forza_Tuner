@@ -2,7 +2,8 @@
 using System;
 using System.Windows;
 using System.Threading;
-using System.Windows.Threading;
+using System.Timers;
+using System.ComponentModel;
 
 namespace Forza_Tuner
 {
@@ -13,11 +14,10 @@ namespace Forza_Tuner
     {
         ForzaListener Listener = new ForzaListener();
         TelemetryData Data = new TelemetryData();
-        TimeSpan SessionTimer = new TimeSpan();
-        uint SessionStartTime = 0;
 
-        DispatcherTimer timer = new DispatcherTimer();
+        DateTime SessionStartTime;
 
+        System.Timers.Timer timer;
 
         public MainWindow()
         {
@@ -26,32 +26,34 @@ namespace Forza_Tuner
             Thread ListenerThread = new Thread(Listener.Listen);
             ListenerThread.IsBackground = true;
             ListenerThread.Start();
+            SessionStartTime = DateTime.Now;
 
-            timer.Tick += new EventHandler(Timer_Tick);
-            timer.Interval = new TimeSpan(22000);
-            timer.Start();
+            this.DataContext = Data;
+
+            timer = new System.Timers.Timer();
+            timer.Interval = 16;
+            timer.Elapsed += Timer_Tick;
+            timer.Enabled = true;
+
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
         {
             // Get Data
             Data = Listener.GetSnapshot();
+            TimeSpan elapsedTime = DateTime.Now - SessionStartTime;
 
             // Update Values
-            UpdateSessionTimer();
+            //UpdateSessionTimer();
 
-            SessionTimerLabel.Content = $"Session: {SessionTimer.ToString(@"hh\:mm\:ss")}";
-            SpeedLabel.Content = $"Speed: {Data.SpeedMPH}";
-            RPMLabel.Content = $"RPM: {Math.Round(Data.CurrentEngineRpm)}";
-            GearLabel.Content = $"Gear: {Data.Gear}";
-        }
-
-        private void UpdateSessionTimer()
-        {
-            if(SessionStartTime == 0) { SessionStartTime = Data.TimestampMS; }
-            SessionTimer = TimeSpan.FromSeconds(
-                Math.Round((double)Data.TimestampMS - SessionStartTime/100)
-                );
+            Dispatcher.BeginInvoke(() =>
+            {
+                SessionTimerLabel.Content = $"Session: {elapsedTime.ToString(@"hh\:mm\:ss")}";
+                SpeedLabel.Content = $"Speed: {Data.SpeedMPH}";
+                RPMLabel.Content = $"RPM: {Math.Round(Data.CurrentEngineRpm)}";
+                GearLabel.Content = $"Gear: {Data.Gear}";
+                Speedometer.UpdateAngle(Data.SpeedMPH);
+            });
         }
     }
 }
