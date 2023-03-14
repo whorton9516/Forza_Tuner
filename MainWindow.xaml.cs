@@ -4,6 +4,7 @@ using System.Windows;
 using System.Threading;
 using System.Timers;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Forza_Tuner
 {
@@ -15,9 +16,17 @@ namespace Forza_Tuner
         ForzaListener Listener = new ForzaListener();
         TelemetryData Data = new TelemetryData();
 
+        System.Timers.Timer timer;
+
         DateTime SessionStartTime;
 
-        System.Timers.Timer timer;
+        private bool isMoving = false;
+        private bool OTSIsRunning = false;
+        private bool OTSIsReady = false;
+        private bool OTSCoolDown = false;
+        private DateTime OTSStartTime;
+        private TimeSpan OTSTime;
+        private TimeSpan OTSCoolDownTimer;
 
         public MainWindow()
         {
@@ -34,7 +43,6 @@ namespace Forza_Tuner
             timer.Interval = 16;
             timer.Elapsed += Timer_Tick;
             timer.Enabled = true;
-
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -44,7 +52,8 @@ namespace Forza_Tuner
             TimeSpan elapsedTime = DateTime.Now - SessionStartTime;
 
             // Update Values
-            //UpdateSessionTimer();
+            if (Data.Speed < 0.1) isMoving = false;
+            else isMoving = true;
 
             Dispatcher.BeginInvoke(() =>
             {
@@ -53,6 +62,47 @@ namespace Forza_Tuner
                 RPMLabel.Content = $"RPM: {Math.Round(Data.CurrentEngineRpm)}";
                 GearLabel.Content = $"Gear: {Data.Gear}";
                 Speedometer.UpdateAngle(Data.SpeedMPH);
+
+                if (!OTSIsReady)
+                {
+                    if (!isMoving && (Data.Handbrake > 0 || Data.Brake > 0) && Data.Accelerator > 0)
+                    {
+                        OTSIsReady = true;
+                    }
+                }
+                else
+                {
+                    if (!OTSIsRunning)
+                    {
+                        switch (isMoving && Data.Gear > 0)
+                        {
+                            case true:
+                                OTSIsRunning = true;
+                                OTSStartTime = DateTime.Now;
+                                break;
+
+                            case false:
+                                OTSTimerLabel.Content = "Accelerate to start 0-60 timer";
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (Data.SpeedMPH < 60)
+                        {
+                            case true:
+                                OTSTime = DateTime.Now - OTSStartTime;
+                                break;
+
+                            case false:
+                                OTSIsRunning = false;
+                                OTSIsReady = false;
+                                break;
+                        }
+                        OTSTimerLabel.Content = $"0 to 60 time: {OTSTime.TotalSeconds.ToString("0.00")} seconds";
+                    }
+                }
+
             });
         }
     }

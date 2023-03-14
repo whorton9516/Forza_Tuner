@@ -20,18 +20,23 @@
                    FontSize="42"
                    />
             <Label x:Name="SpeedLabel"
-                   Content="{Binding Path=Speed, StringFormat='Speed: {0}'}"
+                   Content="Speed: "
                    FontSize="42"
                    />
             <Label x:Name="RPMLabel"
-                   Content="{Binding Path=CurrentEngineRpm, StringFormat='RPM: {0}'}"
+                   Content="RPM: "
                    FontSize="42"
                     />
             <Label x:Name="GearLabel"
-                   Content="{Binding Path=Gear, StringFormat='Gear: {0}'}"
+                   Content="Gear: "
                    FontSize="42"
                    />
-            <local:RadialSpeedometerUserControl x:Name="Speedometer"/>
+            <local:RadialSpeedometerUserControl x:Name="Speedometer" 
+                                                HorizontalAlignment="Left"/>
+            <Label x:Name="OTSTimerLabel"
+                   Content=""
+                   FontSize="42"
+                   />
         </StackPanel>
     </Grid>
 </Window>
