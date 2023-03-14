@@ -12,31 +12,71 @@
         ResizeMode="NoResize"
         >
     <Grid x:Name="MainPanel" Background="#FF282A2D">
-        <StackPanel x:Name="ContentPanel" Orientation="Vertical" 
-                    Background="#FF323846" Height="900" Width="1450" 
-                    VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Label x:Name="SessionTimerLabel"
-                   Content="Session: "
-                   FontSize="42"
-                   />
-            <Label x:Name="SpeedLabel"
+        <Grid Height="900" Width="1450" VerticalAlignment="Bottom"
+              HorizontalAlignment="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="SpeedStack" Background="#FF323846"
+                        Grid.Row="0" Grid.Column="0">
+                <Label x:Name="SpeedLabel"
                    Content="Speed: "
                    FontSize="42"
                    />
-            <Label x:Name="RPMLabel"
+            </StackPanel>
+            <StackPanel x:Name="RPMStack" Background="#FF323846"
+                        Grid.Row="1" Grid.Column="0">
+                <Label x:Name="RPMLabel"
                    Content="RPM: "
                    FontSize="42"
                     />
-            <Label x:Name="GearLabel"
+            </StackPanel>
+            <StackPanel x:Name="GearStack" Background="#FF323846"
+                        Grid.Row="2" Grid.Column="0">
+                <Label x:Name="GearLabel"
                    Content="Gear: "
                    FontSize="42"
-                   />
-            <local:RadialSpeedometerUserControl x:Name="Speedometer" 
-                                                HorizontalAlignment="Left"/>
-            <Label x:Name="OTSTimerLabel"
+                    />
+            </StackPanel>
+            <StackPanel x:Name="RadialSpeedometerStack" Background="#FF323846"
+                        Grid.Row="0" Grid.Column="1">
+                <local:RadialSpeedometerUserControl x:Name="Speedometer"/>
+                <Label x:Name="OTSTimerLabel"
                    Content=""
                    FontSize="42"
                    />
-        </StackPanel>
+            </StackPanel>
+            <StackPanel x:Name="SessionTimerStack" Background="#FF323846"
+                        Grid.Row="0" Grid.Column="2">
+                <Label x:Name="SessionTimerLabel"
+                   Content="Session: "
+                   FontSize="42"
+                   />
+            </StackPanel>
+            <StackPanel x:Name="StackPanel1" Background="#FF323846"
+                        Grid.Row="1" Grid.Column="1">
+
+
+            </StackPanel>
+            <StackPanel x:Name="StackPanel2" Background="#FF323846"
+                        Grid.Row="1" Grid.Column="2">
+
+            </StackPanel>
+            <StackPanel x:Name="StackPanel3" Background="#FF323846"
+                        Grid.Row="2" Grid.Column="1">
+
+            </StackPanel>
+            <StackPanel x:Name="StackPanel4" Background="#FF323846"
+                        Grid.Row="2" Grid.Column="2">
+
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

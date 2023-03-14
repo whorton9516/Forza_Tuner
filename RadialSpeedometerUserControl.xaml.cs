@@ -21,7 +21,7 @@ namespace Forza_Tuner
     /// <summary>
     /// Interaction logic for RadialSpeedometerUserControl.xaml
     /// </summary>
-    public partial class RadialSpeedometerUserControl : UserControl , INotifyPropertyChanged
+    public partial class RadialSpeedometerUserControl : UserControl, INotifyPropertyChanged
     {
         private const double MIN_SPEED = 0.0;
         private const double MAX_SPEED = 250.0;
@@ -45,7 +45,7 @@ namespace Forza_Tuner
         public RadialSpeedometerUserControl()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
         }
 
         public void UpdateAngle(double currentSpeed)
